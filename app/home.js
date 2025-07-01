@@ -1,29 +1,27 @@
-import React, { useState } from "react";
+import { useState } from 'react';
 import {
   Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
-} from "react-native";
-import { useRouter } from "expo-router";
+} from 'react-native';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 const BOX_SIZE = (width - 60) / 3;
 
 const OPTIONS = [
-  { id: 1, label: "Option 1", description: "Details for Option 1" },
-  { id: 2, label: "Option 2", description: "Details for Option 2" },
-  { id: 3, label: "Option 3", description: "Details for Option 3" },
-  { id: 4, label: "Option 4", description: "Details for Option 4" },
-  { id: 5, label: "Option 5", description: "Details for Option 5" },
-  { id: 6, label: "Option 6", description: "Details for Option 6" }
+  { id: 1, label: 'Option 1', description: 'Details for Option 1' },
+  { id: 2, label: 'Option 2', description: 'Details for Option 2' },
+  { id: 3, label: 'Option 3', description: 'Details for Option 3' },
+  { id: 4, label: 'Option 4', description: 'Details for Option 4' },
+  { id: 5, label: 'Option 5', description: 'Details for Option 5' },
+  { id: 6, label: 'Option 6', description: 'Details for Option 6' },
 ];
 
-export default function HomePage() {
+export default function HomePage({ onAnswerPress }) {
   const [expandedId, setExpandedId] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
-  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -38,7 +36,7 @@ export default function HomePage() {
             onExpand={() => setExpandedId(expandedId === option.id ? null : option.id)}
             onSelect={() => {
               setSelectedId(option.id);
-              router.push(`/answer/${option.id}`);
+              onAnswerPress(option.id);
             }}
           />
         ))}
@@ -53,7 +51,7 @@ function AnswerBox({ option, expanded, selected, onExpand, onSelect }) {
       style={[
         styles.box,
         expanded && styles.boxExpanded,
-        selected && styles.boxSelected
+        selected && styles.boxSelected,
       ]}
       onPress={onExpand}
       activeOpacity={0.8}
@@ -65,9 +63,9 @@ function AnswerBox({ option, expanded, selected, onExpand, onSelect }) {
           <TouchableOpacity
             style={[
               styles.selectButton,
-              selected && styles.selectButtonSelected
+              selected && styles.selectButtonSelected,
             ]}
-            onPress={e => {
+            onPress={(e) => {
               e.stopPropagation?.();
               onSelect();
             }}
@@ -75,10 +73,10 @@ function AnswerBox({ option, expanded, selected, onExpand, onSelect }) {
             <Text
               style={[
                 styles.selectButtonText,
-                selected && { color: "#181818" }
+                selected && { color: '#181818' },
               ]}
             >
-              {selected ? "Selected" : "Select"}
+              {selected ? 'Selected' : 'Select'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -87,78 +85,80 @@ function AnswerBox({ option, expanded, selected, onExpand, onSelect }) {
   );
 }
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    paddingTop: 40
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 40,
   },
   grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "90%",
-    justifyContent: "center"
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '90%',
+    justifyContent: 'center',
   },
   box: {
     width: BOX_SIZE * 1.4,
     height: BOX_SIZE * 1,
     borderWidth: 2,
-    borderColor: "#fff",
+    borderColor: '#fff',
     margin: 8,
     borderRadius: 4,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#181818",
-    overflow: "hidden"
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#181818',
+    overflow: 'hidden',
   },
   Question: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 30,
     marginTop: 5,
     marginBottom: 50,
-    textAlign: "center"
+    textAlign: 'center',
   },
   boxExpanded: {
     height: BOX_SIZE * 2,
-    justifyContent: "flex-start",
-    borderColor: "#ffa500"
+    justifyContent: 'flex-start',
+    borderColor: '#ffa500',
   },
   boxSelected: {
-    borderColor: "#ffa500",
-    borderWidth: 2
+    borderColor: '#ffa500',
+    borderWidth: 2,
   },
   boxLabel: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
-    marginTop: 8
+    marginTop: 8,
   },
   expandedContent: {
     marginTop: 16,
-    width: "100%",
-    alignItems: "center"
+    width: '100%',
+    alignItems: 'center',
   },
   description: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 15,
     marginBottom: 12,
-    textAlign: "center"
+    textAlign: 'center',
   },
   selectButton: {
     borderWidth: 2,
-    borderColor: "#ffa500",
+    borderColor: '#ffa500',
     borderRadius: 5,
     paddingVertical: 4,
     paddingHorizontal: 18,
-    backgroundColor: "#181818",
-    marginTop: 60
+    backgroundColor: '#181818',
+    marginTop: 60,
   },
   selectButtonSelected: {
-    backgroundColor: "white",
-    marginTop: 60
+    backgroundColor: 'white',
+    marginTop: 60,
   },
   selectButtonText: {
-    color: "#ffa500",
-    fontWeight: "bold"
-  }
+    color: '#ffa500',
+    fontWeight: 'bold',
+  },
 });
